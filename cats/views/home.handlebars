@@ -1,0 +1,28 @@
+<h1>Welcome to the Central Cat Database</h1>
+<h1>The database currently contains {{count}} cats</h1>
+
+<div>
+  <form action="/cats">
+      <input type="submit" value="List Cats">
+  </form>
+  <form action="/cats/new">
+      <input type="submit" value="Create New Cat">
+  </form>
+  <form action="/cats/delete/old">
+      <input type="submit" value="Remove Oldest Cat">
+  </form>
+</div>
+
+<div>
+  <h2>{{action}}</h2>
+  <ul>
+  {{#each cats}}
+    <li>{{this.name}}
+      <ul>
+        <li>Age: {{this.age}}</li>
+        <li>Color: {{this.color}}</li>
+      </ul>
+    </li>
+  {{/each}}
+  </ul>
+</div>
