@@ -11,6 +11,9 @@
   <form action="/cats/delete/old">
       <input type="submit" value="Remove Oldest Cat">
   </form>
+  <form action="/cats/black">
+      <input type="submit" value="Find cats that are black or have black hats">
+  </form>
 </div>
 
 <div>
@@ -21,6 +24,12 @@
       <ul>
         <li>Age: {{this.age}}</li>
         <li>Color: {{this.color}}</li>
+        <li>Hat:
+          <ul>
+            <li>Type: {{this.hat.type}}</li>
+            <li>Color: {{this.hat.color}}</li>
+          </ul>
+        </li>
       </ul>
     </li>
   {{/each}}

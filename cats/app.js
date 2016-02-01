@@ -7,6 +7,9 @@ var exphbs = require('express-handlebars');
 var express = require('express');
 var index = require('./routes/index');
 var app = express();
+
+var mongoose = require('mongoose');
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(logger('dev'));
@@ -16,4 +19,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
-app.listen(3000);
+mongoose.connect('mongodb://localhost/cats');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  app.listen(3000);
+});
