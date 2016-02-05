@@ -13,6 +13,15 @@ var hatTypes = ['Balmoral bonnet', 'baseball cap', 'beanie', 'beret', 'boater',
     'bowler', 'deerstalker', 'dunce cap', 'fedora', 'fez', 'top hat'];
 var hatColors = ['plad', 'black', 'grey', 'purple', 'maroon'];
 
+
+// Always a big fan of the instantiation of helper functions :) I would add an errorHandler helper function that
+// is nice to always have in hand, as shown below:
+
+// function errorHandler(err, req, res, next) {
+//   res.status(500);
+//   res.render('error', { error: err });
+// }
+
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -85,6 +94,7 @@ router.get('/cats/bycolor/:color', function(req, res, next) {
 
 router.get('/cats/delete/old', function(req, res, next) {
   Cat.count({}, function(err, count) {
+    // Nice null exception checking. First person I see to handle that :)
     if (count === 0) {
       res.render('home', {
         'count': 0,
@@ -94,6 +104,8 @@ router.get('/cats/delete/old', function(req, res, next) {
       return;
     }
 
+    // You can also define a callback = function(err, data){...} and call that on Cat.find(callback). "{}" are 
+    // nice to have but not required.
     Cat.find({},function(err, cats) {
       var maxAgeFound = 0;
       var deleteIndex;
@@ -103,6 +115,7 @@ router.get('/cats/delete/old', function(req, res, next) {
           deletedCat = cats[i];
         }
       }
+      // Nice use of mongoose filtering sir! 
       Cat.find({_id:deletedCat._id}).remove().exec();
       console.log(deletedCat);
       res.render('home', {
