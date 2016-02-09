@@ -1,0 +1,29 @@
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+.ingredient-form form {
+  width: 100%;
+  height: 30px;
+}
+.ingredient-form input {
+  float: left;
+  width: 30%;
+  margin: 0 2% 0 0;
+}
+.ingredient-form .label {
+  float: left;
+  width: 10%;
+  margin: 0 2% 0 0;
+}
+.ingredient-form .submit-button {
+  float: left;
+  width: 10%;
+  margin: 0;
+}
+.price {
+  float: right;
+}
+.out-of-stock {
+  font-style: italic;
+}
