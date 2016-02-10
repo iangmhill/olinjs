@@ -41,6 +41,7 @@ app.get('/api/getIngredients', index.getIngredients);
 // POST requests
 app.post('/api/createIngredient', index.createIngredient);
 app.post('/api/updateIngredient', index.updateIngredient);
+app.post('/api/changeStockIngredient', index.changeStockIngredient);
 app.post('/api/createOrder', index.createOrder);
 app.post('/api/updateOrder', index.updateOrder);
 

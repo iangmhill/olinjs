@@ -6,8 +6,11 @@
   <div class="label">Ingredients:</div>
   <div id="ingredients">
     {{#each ingredients}}
-    <div class="ingredient {{this.inStock}}">
-    <input type="checkbox" name="ingredient" value="{{this.id}}"><span class="label">{{this.name}}</span><span class="price">{{this.price}}</span>
+    <div class="ingredient {{this.inStockClass}}">
+    <input type="checkbox" name="ingredient" value="{{this.id}}" {{this.inStockCheckbox}}>
+    <span class="label">{{this.name}}</span>
+    <span class="stock">{{this.inStockNotation}}</span>
+    <span class="price right">{{this.price}}</span>
     </div>
     {{/each}}
   </div>

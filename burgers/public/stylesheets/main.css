@@ -2,7 +2,10 @@
   max-width: 600px;
   margin: auto;
 }
-.ingredient-form form {
+.ingredient {
+  height: 30px;
+}
+.ingredient-form {
   width: 100%;
   height: 30px;
 }
@@ -21,7 +24,7 @@
   width: 10%;
   margin: 0;
 }
-.price {
+.right {
   float: right;
 }
 .out-of-stock {

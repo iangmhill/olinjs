@@ -9,16 +9,22 @@ var routes = {
       var displayIngredients = [];
       for (var i = 0; i < ingredients.length; i++) {
         var name = ingredients[i].name;
-        var inStock;
+        var inStockClass = '';
+        var inStockNotation = '';
         var price;
+        var id = ingredients[i]._id;
         if (!ingredients[i].inStock) {
-          inStock = 'out-of-stock';
-          name += ' (out of stock)';
-        } else {
-          inStock = '';
+          inStockClass = 'out-of-stock';
+          inStockNotation = '(out of stock)';
         }
         price = '$' + ingredients[i].price.toFixed(2);
-        displayIngredients.push({name: name, price: price, inStock: inStock});
+        displayIngredients.push({
+          name: name, 
+          price: price, 
+          inStockClass: inStockClass,
+          inStockNotation: inStockNotation,
+          id: id
+        });
       }
       res.render('ingredients', {
         'ingredients': displayIngredients
@@ -30,20 +36,23 @@ var routes = {
       var displayIngredients = [];
       for (var i = 0; i < ingredients.length; i++) {
         var name = ingredients[i].name;
-        var inStock;
         var price;
         var id = ingredients[i]._id;
+        var inStockCheckbox = '';
+        var inStockClass = '';
+        var inStockNotation = '';
         if (!ingredients[i].inStock) {
-          inStock = 'out-of-stock';
-          name += ' (out of stock)';
-        } else {
-          inStock = '';
+          inStockCheckbox = 'disabled';
+          inStockClass = 'out-of-stock';
+          inStockNotation = '(out of stock)';
         }
         price = '$' + ingredients[i].price.toFixed(2);
         displayIngredients.push({
           name: name,
           price: price,
-          inStock: inStock,
+          inStockClass: inStockClass,
+          inStockNotation: inStockNotation,
+          inStockCheckbox: inStockCheckbox,
           id: id
         });
       }
@@ -53,8 +62,34 @@ var routes = {
     });
   },
   kitchen: function(req, res) {
-    return;
+    Order.find(function(err, orders){
+      Ingredient.find(function(err, ingredients) {
+        var ingredientDictionary = {};
+        for (var i = 0; i < ingredients.length; i++) {
+          ingredientDictionary[ingredients[i]._id] = ingredients[i].name;
+        }
+        var displayOrders = [];
+        for (var i = 0; i < orders.length; i++) {
+          console.log(orders[i]);
+          var orderName = orders[i].name;
+          var orderIngredients = '';
+          var orderId = orders[i]._id;
+          for (var j = 0; j < orders[i].ingredients.length; j++) {
+            orderIngredients += 
+                (ingredientDictionary[orders[i].ingredients[j]] + ', ');
+          }
+          displayOrders.push({
+            name: orderName,
+            ingredients: orderIngredients,
+            id: orderId
+          });
+        }
+        res.render('kitchen', {
+          'orders': displayOrders
+        });
+      });
 
+    });
   },
   createIngredient: function(req, res) {
     if (req.xhr) {
@@ -77,8 +112,33 @@ var routes = {
     });
   },
   updateIngredient: function(req, res) {
-    return;
-
+    var id = req.body.id;
+    console.log(id);
+    Ingredient.findById(id, function (err, ingredient) {
+      ingredient.name = req.body.name;
+      ingredient.price = req.body.price;
+      ingredient.save(function (err) {
+        if (err) return;
+        res.send({
+          success: true,
+          name: ingredient.name,
+          price: ingredient.price
+        });
+      });
+    });
+  },
+  changeStockIngredient: function(req, res) {
+    var id = req.body.id;
+    Ingredient.findById(id, function (err, ingredient) {
+      ingredient.inStock = !ingredient.inStock;
+      ingredient.save(function (err) {
+        if (err) return;
+        res.send({
+          success: true,
+          inStock: ingredient.inStock
+        });
+      });
+    });
   },
   createOrder: function(req, res) {
     if (req.xhr) {
@@ -110,8 +170,12 @@ var routes = {
 
   },
   updateOrder: function(req, res) {
-    return;
-    
+    var id = req.body.id;
+    Order.remove({_id:id}, function() {
+      res.send({
+        success: true
+      });
+    });
   },
 };
 

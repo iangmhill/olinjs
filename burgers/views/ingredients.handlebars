@@ -1,14 +1,20 @@
 <h2> Ingredients </h2>
 <div id="ingredients-list">
 {{#each ingredients}}
-  <div class="ingredient {{this.inStock}}">
-    <span>
+  <div class="ingredient {{this.inStockClass}}">
+    <span class="name">
       {{this.name}}
     </span>
-    <span class="price">
+    <span class="stock">
+      {{this.inStockNotation}}
+    </span>
+    <span class="right">
+      <button class="edit-ingredient" value="{{this.id}}">Edit</button>
+      <button class="out-of-stock-ingredient" value="{{this.id}}">Out of stock</button>
+    </span>
+    <span class="price right">
       {{this.price}}
     </span>
-
   </div>
 {{/each}}
 </div>

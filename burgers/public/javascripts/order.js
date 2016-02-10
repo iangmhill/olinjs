@@ -51,38 +51,9 @@ $createOrderForm.submit(function(event) {
       ingredients: ingredients
     })
   }).done(function(data, status) {
-
+    $createOrderForm.after(
+        $('<span>Thank you for your order! The total cost is $' + 
+        data.price.toFixed(2) + '</span>'));
   });
   $createOrderForm.trigger('reset');
 });
-
-
-
-
-
-//   .change(function () {
-//     var str = "";
-//     $( "select option:selected" ).each(function() {
-//       str += $( this ).text() + " ";
-//     });
-//     $( "div" ).text( str );
-//   })
-
-
-// });
-
-//   var $checkboxes = $('.order-checkbox');
-//   console.log($checkboxes);
-//   for (var i = 0; i < $checkboxes.length; i++) {
-//     $checkboxes[i].change(function() {
-//       $(this).price
-//     })
-//   }
-// });
-// $('#checkbox1').change(function() {
-//         if($(this).is(":checked")) {
-//             var returnVal = confirm("Are you sure?");
-//             $(this).attr("checked", returnVal);
-//         }
-//         $('#textbox1').val($(this).is(':checked'));        
-//     });
