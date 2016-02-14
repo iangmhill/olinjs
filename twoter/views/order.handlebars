@@ -1,0 +1,22 @@
+<h2> Order </h2>
+<h3> Submit Order </h3>
+<form id="create-order-form" action="api/createOrder" method="POST">
+  <div class="label">Name:</div>
+  <input type="text" name="name"/>
+  <div class="label">Ingredients:</div>
+  <div id="ingredients">
+    {{#each ingredients}}
+    <div class="ingredient {{this.inStockClass}}">
+    <input type="checkbox" name="ingredient" value="{{this.id}}" {{this.inStockCheckbox}}>
+    <span class="label">{{this.name}}</span>
+    <span class="stock">{{this.inStockNotation}}</span>
+    <span class="price right">{{this.price}}</span>
+    </div>
+    {{/each}}
+  </div>
+  <div>
+    <input class="submit-button" type="submit" value="Submit">
+    <span id="total-price">$0.00</span>
+  </div>
+</form>
+<script type="text/javascript" src="javascripts/order.js"></script>
