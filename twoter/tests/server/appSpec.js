@@ -84,36 +84,3 @@ describe('TWOTER TESTS', function() {
     });
   });
 });
-
-// describe('Twoter', function() {
-
-
-
-
-//   it('should be able to login', function(done) {
-//     request(app)
-//       .post('/login', {username: 'test', password: 'test'})
-//       .expect(302, done);
-//   });
-
-//   it('should return 200 on GET / when authenticated', function(done) {
-//     request(app)
-//       .get('/')
-//       .expect(200)
-//       .end(function(err, res) {
-
-//         done();
-//       });
-//   });
-
-
-
-
-//   // What other routes can you test?
-
-//   it('should return 404 on GET /notaroute', function(done) {
-//     request(app)
-//       .get('/notaroute')
-//       .expect(404, done);
-//   });
-// });
