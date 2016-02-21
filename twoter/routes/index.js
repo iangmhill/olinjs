@@ -58,9 +58,8 @@ var routes = {
     })
   },
   deleteTwote: function(req, res) {
+    console.log(req.body);
     Twote.findById(req.body.id, function (err, twote) {
-      console.log(twote.userId);
-      console.log(req.user.id);
       if (req.user.id == twote.userId) {
         twote.remove();
         res.send({id: twote._id});

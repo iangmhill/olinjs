@@ -33,10 +33,10 @@ var passport = authentication.configure();
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'twoter', resave: true, saveUninitialized: false })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,6 +58,8 @@ app.post('/login', authentication.login);
 app.post('/signup', authentication.signup);
 app.post('/api/createTwote', routes.createTwote);
 app.post('/api/deleteTwote', routes.deleteTwote);
+app.post('/api/deleteLocalUser',
+    authentication.checkAuthentication, authentication.deleteLocalUser);
 
 // CONNECT TO DATABASE =========================================================
 mongoose.connect('mongodb://localhost/twoter');
@@ -69,3 +71,5 @@ var PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
   console.log("Twoter running on port:", PORT);
 });
+
+module.exports = app;

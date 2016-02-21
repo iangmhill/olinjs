@@ -85,13 +85,17 @@ var authentication = {
   },
   checkAuthentication: function(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login');
+    res.status(401).redirect('/login');
   },
   signup: function(req, res, next) {
     passport.authenticate('local-signup', {
       successRedirect : '/',
       failureRedirect : '/signup'
     })(req, res, next);
+  },
+  deleteLocalUser: function(req, res) {
+    User.find({ _id:req.user._id }).remove().exec();
+    res.status(200).redirect('/login');
   },
   login: function(req, res, next) {
     passport.authenticate('local-login', {

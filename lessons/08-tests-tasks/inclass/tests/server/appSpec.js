@@ -1,5 +1,7 @@
 var request = require('supertest');
-var app = require('./../../app.js');
+var core = require('./../../app.js');
+var app = core.application;
+var mongoose = core.database;
 
 describe("The app", function() {
   it('should return 200 OK on GET /', function(done) {
@@ -23,17 +25,38 @@ describe("The app", function() {
       .expect('Content-Length', '515', done); // ...or this way, inline!
   });
 
+  // Route /cats
+
   it('should return 200 OK on GET /cats', function(done) {
     request(app)
       .get('/cats')
       .expect(200, done);
   });
 
-  it('should respond with the correct html on GET /cats', function(done) {
+  // Route /cats/new
+
+  it('should return 200 OK on GET /cats/new', function(done) {
     request(app)
-      .get('/cats')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect('Content-Length', '151', done);
+      .get('/cats/new')
+      .expect(200, done);
+  });
+
+  // Route /cats/new
+
+  it('should return 500 FAIL on GET /cats/new', function(done) {
+    mongoose.connection.close()
+    request(app)
+      .get('/cats/new')
+      .expect(500, done);
+    mongoose.connect(core.parameters.mongoURI);
+  });
+
+  // Route /cats/delete
+
+  it('should return 200 OK on GET /cats/delete/old', function(done) {
+    request(app)
+      .get('/cats/delete/old')
+      .expect(200, done);
   });
 
   // What other routes can you test?

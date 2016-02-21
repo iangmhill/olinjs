@@ -39,4 +39,4 @@ app.listen(PORT, function() {
   console.log("Application running on port:", PORT);
 });
 
-module.exports = app;
+module.exports = {application: app, database: mongoose, parameters: {mongoURI: mongoURI}};
