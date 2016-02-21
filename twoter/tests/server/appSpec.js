@@ -71,7 +71,6 @@ describe('TWOTER TESTS', function() {
     });
     
     it('should be able to delete the test twote when logged in', function(done) {
-      console.log('AAA' + twoteId);
       var req = request.post('/api/deleteTwote');
       agent.attachCookies(req);
       req.send({id: twoteId}).expect(200,done);
