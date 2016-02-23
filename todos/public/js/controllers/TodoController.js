@@ -3,14 +3,18 @@ app.controller('TodoController', function($scope, TodoService) {
 
   $scope.isEditing = false;
   $scope.hiddenTodos = [];
+  $scope.activeTodoCount = 0;
 
   TodoService.get().then(function(todos) {
-    for (var i = 0; i < todos.length; i++) {
-      todos[i].editing = false;
-      todos[i].strikethrough =
-          todos[i].completed ? 'strikethrough' :'';
-    }
+    var activeTodoCount = 0;
+    angular.forEach(todos, function(todo) {
+      todo.editing = false;
+      todo.strikethrough =
+          todo.completed ? 'strikethrough' :'';
+      if (!todo.completed) { activeTodoCount++ };
+    });
     $scope.todos = todos;
+    $scope.activeTodoCount = activeTodoCount;
   });
 
   $scope.createForm = function() {
@@ -23,6 +27,7 @@ app.controller('TodoController', function($scope, TodoService) {
           confirmation.editing = false;
           $scope.todos.push(confirmation);
           $scope.createDescription = '';
+          $scope.activeTodoCount++;
         } else {
           $scope.createDescription = '';
         }
@@ -76,6 +81,11 @@ app.controller('TodoController', function($scope, TodoService) {
         if (confirmation.success) {
           todo.completed = confirmation.completed;
           todo.strikethrough = todo.completed ? 'strikethrough' :'';
+          if (confirmation.completed) {
+            $scope.activeTodoCount--;
+          } else {
+            $scope.activeTodoCount++;
+          }
         }
       },
       function(error) {
@@ -92,6 +102,7 @@ app.controller('TodoController', function($scope, TodoService) {
       function(confirmation) {
         console.log(confirmation);
         if (confirmation.success) {
+          if (!confirmation.completed) { $scope.activeTodoCount-- }
           var index = $scope.todos.indexOf(todo);
           console.log(index);
           $scope.todos.splice(index, 1);     
