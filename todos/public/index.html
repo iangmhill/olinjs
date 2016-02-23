@@ -1,0 +1,53 @@
+<!-- public/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+
+  <title>Todos</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link rel="icon" type="image/png" href="images/favicon.png?v=5">
+
+  <!-- JS -->
+  <script src="libs/angular/angular.min.js"></script>
+  <script src="libs/angular-route/angular-route.min.js"></script>
+
+  <!-- ANGULAR CUSTOM -->
+  <script src="js/app.js"></script>
+  
+  <script src="js/services/TodoService.js"></script>
+
+  <script src="js/controllers/MainController.js"></script>
+  <script src="js/controllers/TodoController.js"></script>
+
+</head>
+<body ng-app="todos" ng-controller="MainController">
+
+  <!-- HEADER -->
+  <header id="section-header" class="container-body">
+    <a href="/" class="logo"><span>Todos</span></a>
+    <div class="container-filter">
+      <select
+          class="filter"
+          ng-model="filter"
+          ng-change="filterChange()">
+        <option value="all">All</option>
+        <option valie="active">Active</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- ANGULAR DYNAMIC CONTENT -->
+  <div id="section-content" class="container-body">
+    <div class="container-limiting">
+      <div ng-view></div>
+    </div>
+  </div>
+
+</body>
+</html>

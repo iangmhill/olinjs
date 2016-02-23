@@ -1,0 +1,46 @@
+<!-- public/partials/todos.html -->
+<div class="container-card">
+
+  <div
+      class="todo"
+      ng-repeat="todo in todos track by todo._id"
+      ng-switch="todo.editing">
+
+    <!-- BEGIN: Template for Finalized Todo. -->
+    <div
+        class="finalized-todo-content"
+        ng-switch-when="false">
+      <div
+          class="todo-description {{todo.strikethrough}}">
+        {{todo.description}}
+      </div>
+      <button class="todo-button" ng-click="edit(todo)">Edit</button>
+      <button class="todo-button" ng-click="done(todo)">Done</button>
+      <button class="todo-button" ng-click="delete(todo)">Delete</button>
+    </div>
+    <!-- END: Template for Finalized Todo. -->
+    <!-- BEGIN: Template for Editing Todo. -->
+    <form
+        class="editing-todo-content"
+        ng-switch-when="true"
+        role="form"
+        ng-submit="editForm(todo, editDescription)">
+      <div
+          class="todo-description">
+        <input type="text" class="form-control" ng-model="editDescription">
+      </div>
+      <button class="todo-button">Confirm</button>
+    </form>
+    <!-- END: Template for Editing Todo. -->
+  </div>
+  <form
+      class="create-todo"
+      role="form"
+      ng-submit="createForm()">
+    <div
+        class="todo-description">
+      <input type="text" class="form-control" ng-model="createDescription">
+    </div>
+    <button class="todo-button">Create</button>
+  </form>
+</div>

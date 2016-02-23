@@ -33,3 +33,6 @@ pids
 **/.DS_Store
 
 **/oauth.js
+
+# Bower libs
+**/libs
