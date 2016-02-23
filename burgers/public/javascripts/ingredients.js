@@ -25,6 +25,7 @@ $createIngredientForm.submit(function(event) {
         inStockClass = 'out-of-stock'
         inStockClassNotation = '(out of stock)';
       }
+      // I would use the template, clone, append flow. For an example look at the inclass exercises from from 05 flex class
       $("#ingredients-list").append(
         $('<div class="ingredients ' + inStockClass + '"></div>')
         .append($('<span class="name">' + name + '</span>'))
@@ -50,6 +51,7 @@ $(document).ready(function() {
     var price = $ingredient.parent().siblings('.price').text().replace(/[^0-9\.]+/g,"");
     console.log(price);
     $ingredient.parents('.ingredient').after(
+      // That is one very specific selector
       $('<form id="edit-ingredient-form" class="ingredient-form" action="api/updateIngredient" method="POST"></form>')
         .append($('<div class="label">Name:</div>'))
         .append($('<input type="text" name="name" value="' + name + '"/>'))
@@ -75,6 +77,7 @@ $(document).ready(function() {
         }),
         contentType: 'application/json',
         success: function(data, status) {
+          // Having to use parent and siblings for most of your modifications seems a little complex, could you have organized your markup to simplify things?
           $ingredient.parent().siblings('.name').text(data.name);
           $ingredient.parent().siblings('.price')
               .text('$' + data.price.toFixed(2));

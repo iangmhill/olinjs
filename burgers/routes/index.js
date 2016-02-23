@@ -7,6 +7,7 @@ var routes = {
   ingredients: function(req, res) {
     Ingredient.find(function(err, ingredients){
       var displayIngredients = [];
+      //ingredients.map would be cleaner and more consise
       for (var i = 0; i < ingredients.length; i++) {
         var name = ingredients[i].name;
         var inStockClass = '';
@@ -34,6 +35,7 @@ var routes = {
   order: function(req, res) {
     Ingredient.find(function(err, ingredients){
       var displayIngredients = [];
+      //same thing
       for (var i = 0; i < ingredients.length; i++) {
         var name = ingredients[i].name;
         var price;
@@ -65,6 +67,7 @@ var routes = {
     Order.find(function(err, orders){
       Ingredient.find(function(err, ingredients) {
         var ingredientDictionary = {};
+        //great place for a reduce call
         for (var i = 0; i < ingredients.length; i++) {
           ingredientDictionary[ingredients[i]._id] = ingredients[i].name;
         }
@@ -92,6 +95,7 @@ var routes = {
     });
   },
   createIngredient: function(req, res) {
+    //what happens if !req.xhr, looks like it sends undefined?
     if (req.xhr) {
       var newIngredient = new Ingredient(req.body);
       newIngredient.save(function (err) {
@@ -108,12 +112,14 @@ var routes = {
   },
   getIngredients: function(req, res) {
     Ingredient.find(function(err, ingredients) {
+    //I prefer res.json cause it properly serializes null and undefined values
       res.send(ingredients);
     });
   },
   updateIngredient: function(req, res) {
     var id = req.body.id;
     console.log(id);
+    //Could use findbyId and update
     Ingredient.findById(id, function (err, ingredient) {
       ingredient.name = req.body.name;
       ingredient.price = req.body.price;
@@ -148,9 +154,11 @@ var routes = {
       var price = 0;
 
       Ingredient.find({_id: { $in: ingredients}}, function(err, ingredients) {
+        //reduce could work here too or forEach
         for (var i = 0; i < ingredients.length; i++) {
           price += ingredients[i].price;
         }
+        // Order.create() makes and saves which is a bit more consise
         var newOrder = new Order({
           name: name,
           ingredients: ingredients,
