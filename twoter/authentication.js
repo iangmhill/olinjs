@@ -35,7 +35,7 @@ var authentication = {
               return done(null, newUser);
             });
           }
-        });    
+        });
       });
     }));
     passport.use('local-login', new LocalStrategy({
@@ -53,39 +53,49 @@ var authentication = {
       });
     }));
 
+    // You indicated that this was the segment you weren't sure about.
+    // It all looks good to me! Comments are just nitpicks
     passport.use(new FacebookStrategy({
       clientID: config.facebook.clientID,
       clientSecret: config.facebook.clientSecret,
       callbackURL: config.facebook.callbackURL
     },
     function(accessToken, refreshToken, profile, done) {
+      // My understanding is that this function runs when a login happens --
+      // so trying to find the user and creating one if they don't exist
+      // makes perfect sense to me.
       User.findOne({ oauthID: profile.id }, function(err, user) {
-        if (err) { return done(err); }
-        if (!err && user != null) {
+        // pick one way of writing one-line ifs -- I don't mind which, but I'm a fan of consistency
+        if (err) {
+          return done(err, null); // I might specify null, just to make it explicitly clear that done takes two args
+        }
+        if (user != null) { // no need for the !err -- you already returned on the err case
           return done(null, user);
-        } else {
-          var user = new User({
-            oauthID: profile.id,
-            username: profile.displayName.replace(/ /g,"_")
-          });
+        }
 
-          user.save(function(err) {
-            if(err) {
-              return done(err);
-            } else {
-              return done(null, user);
-            };
-          });
-        };
+        // You don't actually need the else -- returned in both of the if cases
+        // Using returns like you did is a good way to avoid crazy-nested if/else blocks :)
+        var user = new User({
+          oauthID: profile.id,
+          username: profile.displayName.replace(/ /g,"_")
+        });
+
+        user.save(function(err) {
+          if (err) { // you had a space there before, so I'm putting one there here
+            return done(err, null); // (again, my preference -- functionally no different, and completely up to you)
+          } else {
+            return done(null, user);
+          };
+        });
       });
     }
     ));
 
-    return passport;
+    return passport; // I'm not certain you need to do this -- but I'm quite probably wrong
   },
   checkAuthentication: function(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.status(401).redirect('/login');
+    res.status(401).redirect('/login'); // great error handling!
   },
   signup: function(req, res, next) {
     passport.authenticate('local-signup', {
