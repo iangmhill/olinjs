@@ -53,9 +53,11 @@ $(document).ready(function() {
     .append($('<form>', {action: 'logout', method: 'get'})
       .append($('<button>', {type: 'submit', text: 'Logout'}))
     );
+  // Nested callbacks are completely ok with me, especially if they're organized well like yours are.
+  // If you'd rather not nest, though, promises are a good alternative: https://davidwalsh.name/promises, if you haven't heard of them
   $.ajax({
     type: 'GET',
-    url: '/api/getUserInfo',
+    url: '/api/getUserInfo', // great route naming!
     contentType: 'application/json'
   }).done(function(user, status) {
     userInfo = user

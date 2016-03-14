@@ -27,7 +27,7 @@ var routes         = require('./routes/index');
 var authentication = require('./authentication.js');
 
 // CONFIGURATION ===============================================================
-
+// asd;glkj it's so well-organized! You write really clean code -- it's a pleasure to read.
 var passport = authentication.configure();
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
